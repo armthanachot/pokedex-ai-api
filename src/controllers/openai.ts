@@ -22,7 +22,6 @@ export const generatePrompt = async ({ body, set }: Context<{ body: generateProm
         messages: message,
         temperature: 0.7, //specifies the randomness of the output
     })
-
     return {
         prompt: response.choices[0].message.content?.replaceAll("\n", "").replaceAll(`"`, ""),
     }
