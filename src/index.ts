@@ -1,7 +1,17 @@
 import { Elysia } from "elysia";
+import { swagger } from "@elysiajs/swagger";
+import hfRoutes from "./routes/hf";
+import openaiRoute from "./routes/openai";
+import { staticPlugin } from '@elysiajs/static'
+import path from 'path'
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
-
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+const app = new Elysia()
+  .use(swagger()) // API documentation
+  .use(hfRoutes) // Register routes
+  .use(openaiRoute)
+  .use(staticPlugin({
+    prefix: '/assets',
+    assets: path.resolve(__dirname, '../assets'),
+  }))
+  .listen(3003);
+console.log(`Server running at http://localhost:3003`);
